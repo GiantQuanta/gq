@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('myApp.version', [
-  'myApp.version.interpolate-filter',
-  'myApp.version.version-directive'
+angular.module('humint.version', [
+  'humint.version.interpolate-filter',
+  'humint.version.version-directive'
 ])
 
 .value('version', '0.1');
