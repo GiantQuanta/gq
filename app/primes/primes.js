@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('humint.primes', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
@@ -10,8 +8,6 @@ angular.module('humint.primes', ['ngRoute'])
 }])
 
 .controller('PrimesCtrl', ['$scope', function($scope) {
-  var primes = [];
-
   var generator = function(limit) {
     var prms = [];
     if (limit >= 2) prms = [2];
@@ -38,17 +34,25 @@ angular.module('humint.primes', ['ngRoute'])
   var primes = generator(10009);
   var integers = [];
 
-  for(var i=1; i<10000; i=i+1) {
-    var fill = "#fff";
-    if($.inArray(i, primes) > -1) { fill = "#000"; }
-    integers.push({
-      integer: i,
-      fill: fill,
-      x: i % 100,
-      y: Math.floor(i / 100)
-    });
-  }
+  $(document).ready(function() {
+    for(var i=1; i<10000; i=i+1) {
+      if($.inArray(i, primes) > -1) {
+        var rect = $(document.createElementNS("http://www.w3.org/2000/svg", "rect"));
+        rect.attr({
+          fill: "#000",
+          x: i%100,
+          y: Math.floor(i/100),
+          width: "1",
+          height: "1"
+        });
+        $("#prime-map").append(rect);
+      }
+    }
+  });
 
-  $scope.integers = integers;
+  setInterval(function() {
+    var rnd = Math.floor((Math.random() * primes.length) + 1);
+    $($("#prime-map rect").get(rnd - 1)).toggle();
+  }, Math.floor((Math.random() * 500) + 1));
 
 }]);
